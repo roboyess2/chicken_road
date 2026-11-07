@@ -51,9 +51,9 @@ export function GamePage() {
             </div>
 
             <div className="game-status-row">
-              <div className={`status-message ${phase === 'lost' ? 'status-danger' : result && phase !== 'running' ? 'status-success' : ''}`}>
+              <div className={`status-message ${phase === 'lost' || phase === 'crashing' ? 'status-danger' : result && phase !== 'running' ? 'status-success' : ''}`}>
                 <span className="status-icon">{phase === 'lost' ? '×' : result && phase !== 'running' ? '✓' : <span className="pulse-dot" />}</span>
-                <div><b>{result && phase !== 'running' ? resultTitle : active ? (step === 0 ? 'Дорога свободна. Решай, когда прыгать.' : 'Успел! Заберёшь очки или рискнёшь ещё?') : 'Выбери ставку и начни переход.'}</b><small>{result && phase !== 'running' ? (result.kind === 'loss' ? `Раунд завершён · ставка ${money(result.amount)} потеряна` : `Выплата ${money(result.amount)} уже добавлена к балансу`) : active ? 'Один прыжок — один случайный исход. Тайминг не влияет.' : 'Шанс столкновения на каждом этапе фиксирован.'}</small></div>
+                <div><b>{phase === 'crashing' ? 'Машина несётся на цыплёнка…' : result && phase !== 'running' ? resultTitle : active ? (step === 0 ? 'Дорога свободна. Решай, когда прыгать.' : 'Успел! Заберёшь очки или рискнёшь ещё?') : 'Выбери ставку и начни переход.'}</b><small>{phase === 'crashing' ? 'Столкновение уже определено для этого прыжка.' : result && phase !== 'running' ? (result.kind === 'loss' ? `Раунд завершён · ставка ${money(result.amount)} потеряна` : `Выплата ${money(result.amount)} уже добавлена к балансу`) : active ? 'Один прыжок — один случайный исход. Тайминг не влияет.' : 'Шанс столкновения на каждом этапе фиксирован.'}</small></div>
               </div>
               <div className="road-odds"><span>ШАНС ПРОЙТИ ЭТАП</span><b>{safePercent.toLocaleString('ru-RU')}<small>%</small></b></div>
             </div>
@@ -102,7 +102,7 @@ export function GamePage() {
             </div>
 
             <div className="action-buttons">
-              <button className="primary-action" onClick={active ? jump : startRound} disabled={phase === 'jumping' || (!active && balance < bet)}>
+              <button className="primary-action" onClick={active ? jump : startRound} disabled={phase === 'jumping' || phase === 'crashing' || (!active && balance < bet)}>
                 <span>{primaryLabel}</span><Icon name="arrow" size={18} />
               </button>
               <button className="cashout-action" onClick={() => securePrize()} disabled={phase !== 'running' || step === 0}>
@@ -123,7 +123,7 @@ export function GamePage() {
         </aside>
       </main>
 
-      <footer className="footer"><span>FEATHERPLAY LAB</span><span>ВИРТУАЛЬНАЯ ИГРА · БЕЗ ДЕНЕЖНЫХ СТАВОК</span><span>v1.0 / RESEARCH BUILD</span></footer>
+      <footer className="footer"><span>FEATHERPLAY LAB</span><span>ВИРТУАЛЬНАЯ ИГРА</span><span>v1.0 / RESEARCH BUILD</span></footer>
     </div>
   );
 }

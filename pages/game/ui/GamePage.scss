@@ -87,7 +87,7 @@ h1 span { color: var(--green); }
 .road-lane.lane-crossed { background: linear-gradient(180deg,#26332b,#29352c); }
 .road-lane.lane-current { background: linear-gradient(180deg,#414437,#3c4437); }
 .road-lane.lane-finish { background: linear-gradient(180deg,#46503e,#414c3a); }
-.lane-mark { position: absolute; top: 50%; left: 11px; transform: translateY(-50%); z-index: 2; color: rgba(225,229,210,.35); font: 8px var(--mono); letter-spacing: .08em; }
+.lane-mark { position: absolute; top: 50%; left: 11px; transform: translateY(-50%); z-index: 2; color: rgba(168, 212, 9, 0.35); font: 8px var(--mono); letter-spacing: .08em; }
 .finish-flag { color: #d7f091; letter-spacing: .14em; }
 .road-blocker { position: absolute; width: 41px; height: 18px; right: 24%; top: 50%; transform: translateY(-50%); display: flex; justify-content: space-between; padding: 0 4px; border-radius: 3px; background: repeating-linear-gradient(135deg,#f3ede0 0 6px,#df7957 6px 12px); border: 1px solid #f8d6a2; box-shadow: 0 3px 7px rgba(0,0,0,.26); z-index: 3; animation: blocker-in .33s cubic-bezier(.2,.9,.25,1.2) both; }
 .road-blocker i { width: 2px; height: 20px; margin-top: 15px; background: #bd8d50; }
@@ -324,3 +324,68 @@ body { background: #252526; }
 @media (max-width: 900px) { .topbar { padding-inline: 14px; }.topbar-center { display: none; }.main-layout { min-height: calc(100svh - 54px); }.game-card { height: calc(100svh - 250px); min-height: 360px; }.road-scene { min-height: 360px; }.control-column { padding: 10px 12px 12px; }.bet-card { grid-template-columns: minmax(170px,.8fr) minmax(210px,1.2fr) minmax(125px,.7fr) minmax(125px,.7fr); gap: 7px 10px; }.cashout-action span { font-size: 14px; }.primary-action { font-size: 18px; }.lane-multiplier { border-width: 3px; } }
 @media (max-width: 650px) { .topbar { height: 54px; }.brand-name { font-size: 12px; }.header-balance { min-width: 110px; padding: 5px 8px; }.header-balance b { font-size: 13px; }.reset-button { width: 34px; padding: 0; justify-content: center; }.reset-button span { display: none; }.game-card { height: 58svh; min-height: 300px; }.road-scene { min-height: 300px; }.game-card-top { inset: 10px 10px auto; }.road-lanes { inset: 0 4px; }.lane-multiplier { width: clamp(52px,13vw,82px); border-width: 3px; font-size: clamp(14px,4vw,22px); }.chicken-position { width: clamp(68px,17vw,105px); height: clamp(68px,17vw,105px); }.car { width: clamp(32px,8vw,48px); height: clamp(62px,16vw,88px); }.road-blocker { width: clamp(48px,12vw,75px); height: 25px; border-width: 2px; background: repeating-linear-gradient(135deg,#ffd152 0 10px,#343536 10px 20px); }.road-blocker i { bottom: -20px; height: 17px; width: 7px; }.lane-mark { font-size: 7px; }.road-caption { left: 10px; right: 10px; bottom: 6px; font-size: 7px; }.game-status-row { top: 52px; left: 10px; right: 10px; }.status-message.status-danger,.status-message.status-success { padding: 8px 10px; }.control-column { padding: 8px; }.bet-card { grid-template-columns: minmax(100px,.85fr) minmax(100px,1.15fr); grid-template-rows: auto auto auto auto auto; gap: 7px; padding: 10px; border-radius: 14px; }.bet-heading { grid-column: 1; grid-row: 1; }.bet-heading h2,.payout-heading h2 { font-size: 12px; }.bet-stepper { grid-column: 1; grid-row: 2; grid-template-columns: 32px 1fr 32px; height: 40px; }.bet-value b { font-size: 17px; }.bet-value span { font-size: 7px; }.bet-presets { grid-column: 1; grid-row: 3; gap: 4px; }.bet-presets button { height: 29px; font-size: 9px; }.payout-heading { grid-column: 2; grid-row: 1; }.payout-value { grid-column: 2; grid-row: 2; flex-direction: column; gap: 0; }.payout-value b { font-size: 20px; }.multiplier-track { grid-column: 2; grid-row: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }.multiplier-step { font-size: 7px; }.multiplier-step i { width: 17px; height: 17px; font-size: 7px; }.action-buttons { grid-column: 1 / -1; grid-row: 4; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }.cashout-action,.primary-action { grid-column: auto; grid-row: auto; min-height: 48px; height: 48px; border-radius: 9px; }.cashout-action span { font-size: 12px; }.cashout-action b { font-size: 7px; }.primary-action { font-size: 16px; }.low-balance { grid-row: 5; font-size: 8px; }.road-caption span:nth-child(2) { display:none; } }
 @media (prefers-reduced-motion: reduce) { .lane-multiplier,.road-lane::after,.road-blocker,.chicken-position .chicken,.safe-landing,.road-scene,.status-message { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+/* Progress treatment: banked stage markers rise above the new barrier. */
+.lane-multiplier.is-secured {
+  top: 15%;
+  width: clamp(76px, 6.4vw, 112px);
+  color: #eaffd2;
+  border-color: rgba(127, 231, 111, .9);
+  background: radial-gradient(circle at 35% 26%,rgba(255,255,255,.24),transparent 39%),linear-gradient(145deg,rgba(68,164,76,.96),rgba(38,111,58,.96));
+  box-shadow: inset 0 0 0 4px rgba(222,255,207,.16),0 0 24px rgba(91,224,109,.48),0 5px 13px rgba(0,0,0,.2);
+  animation: multiplier-secured .72s cubic-bezier(.16,.86,.24,1.22) both;
+}
+.lane-multiplier.is-secured::after {
+  content: '✓';
+  position: absolute;
+  top: -9px;
+  right: -7px;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border: 2px solid #d9ffd0;
+  border-radius: 50%;
+  color: #153a22;
+  background: #9ff084;
+  font: 800 14px var(--display);
+  text-shadow: none;
+}
+.lane-mark {
+  bottom: 12px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255,255,255,.58);
+  border-radius: 999px;
+  color: #fff !important;
+  background: rgba(38,39,40,.78);
+  box-shadow: 0 2px 8px rgba(0,0,0,.28);
+  font: 800 clamp(12px,1.05vw,17px) var(--mono) !important;
+  letter-spacing: .08em;
+  text-shadow: 0 1px 2px #000;
+}
+.road-lane.lane-current .lane-mark { border-color: #ffe27d; color: #fff3c2 !important; background: rgba(72,59,26,.88); }
+.road-lane.lane-crossed .lane-mark { border-color: #9de58d; color: #eaffdc !important; background: rgba(31,88,47,.88); }
+.control-column { width: 100vw; margin-left: calc(50% - 50vw); }
+.bet-card { width: min(calc(100vw - 80px), 1500px); margin-inline: auto; }
+@keyframes multiplier-secured {
+  0% { top: 57%; scale: .72; color: #fff; border-color: rgba(37,37,38,.46); background-color: rgba(39,39,40,.34); box-shadow: inset 0 0 0 5px rgba(255,255,255,.08),0 5px 14px rgba(0,0,0,.12); }
+  48% { top: 28%; scale: 1.13; color: #eeffdb; box-shadow: 0 0 35px rgba(91,224,109,.8); }
+  74% { top: 17%; scale: .93; }
+  100% { top: 15%; scale: 1; color: #eaffd2; }
+}
+@media (max-width: 650px) {
+  .bet-card { width: calc(100vw - 16px); }
+  .lane-multiplier.is-secured { width: clamp(48px, 12vw, 72px); font-size: clamp(12px,3.3vw,18px); }
+  .lane-multiplier.is-secured::after { width: 19px; height: 19px; top: -6px; right: -5px; font-size: 10px; }
+  .lane-mark { bottom: 8px; padding: 5px 7px; font-size: clamp(9px,2.8vw,12px) !important; }
+}
+.road-scene[data-phase="crashing"] { animation: scene-shake .42s ease-in-out both; }
+.chicken-position.crashing { animation: chicken-panic .48s ease-in-out both; }
+.lane-hit .car { animation: hit-car-vertical .62s cubic-bezier(.22,.62,.34,1) both; }
+@keyframes chicken-panic {
+  0% { transform: translate(-50%,-51%) scale(1); }
+  24% { transform: translate(calc(-50% - 5px),-51%) rotate(-7deg) scale(1.06); }
+  55% { transform: translate(calc(-50% + 4px),-51%) rotate(7deg) scale(.96,1.04); }
+  100% { transform: translate(-50%,-51%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .chicken-position.crashing { animation-duration: .01ms !important; } }

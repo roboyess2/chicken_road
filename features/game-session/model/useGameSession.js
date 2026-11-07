@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DEFAULT_GAME_CONFIG, GAME_LIMITS, multiplierFor, payoutFor } from '../../../entities/game/model/gameRules.js';
 import { getGameConfig } from '../../../entities/game/api/gameConfigApi.js';
+import { prepareGameAudio, playSafeHop, playCrashPass, playCashout } from '../../../shared/lib/gameSounds.js';
 
 export function useGameSession() {
   const [gameConfig, setGameConfig] = useState(DEFAULT_GAME_CONFIG);
@@ -14,7 +15,7 @@ export function useGameSession() {
   const [result, setResult] = useState(null);
   const [sessionStats, setSessionStats] = useState({ rounds: 0, wins: 0, losses: 0 });
   const timerRef = useRef(null);
-  const active = phase === 'running' || phase === 'jumping';
+  const active = phase === 'running' || phase === 'jumping' || phase === 'crashing';
   const canEditBet = !active;
   const currentPayout = step > 0 ? payoutFor(bet, step, gameConfig.safeMultiplier) : 0;
   const currentMultiplier = multiplierFor(step, gameConfig.safeMultiplier);
@@ -38,7 +39,10 @@ export function useGameSession() {
   function securePrize(kind = 'cashout') {
     if (phase !== 'running' || step === 0) return;
     const payout = currentPayout;
-    setBalance((value) => value + payout); setResult({ kind, amount: payout, steps: step });
+    const nextBalance = balance + payout;
+    playCashout();
+    setBalance(nextBalance); setBet(Math.min(20, nextBalance)); setStep(0); setPendingHit(false);
+    setResult({ kind, amount: payout, steps: step });
     setSessionStats((value) => ({ ...value, wins: value.wins + 1 })); setPhase('cashed');
   }
   function randomUnit() {
@@ -47,11 +51,21 @@ export function useGameSession() {
   }
   function jump() {
     if (phase !== 'running') return;
+    prepareGameAudio();
     const hit = randomUnit() < gameConfig.collisionChance;
     setPendingHit(hit); setPhase('jumping');
     timerRef.current = window.setTimeout(() => {
       setPendingHit(false);
-      if (hit) { setPhase('lost'); setResult({ kind: 'loss', amount: bet, steps: step }); setSessionStats((value) => ({ ...value, losses: value.losses + 1 })); return; }
+      if (hit) {
+        setPhase('crashing');
+        playCrashPass();
+        timerRef.current = window.setTimeout(() => {
+          setPhase('lost'); setResult({ kind: 'loss', amount: bet, steps: step });
+          setSessionStats((value) => ({ ...value, losses: value.losses + 1 }));
+        }, 700);
+        return;
+      }
+      playSafeHop();
       setStep((value) => value + 1); setPhase('running');
     }, 620);
   }
@@ -60,7 +74,7 @@ export function useGameSession() {
     setBalance(GAME_LIMITS.STARTING_BALANCE); setBet(20); setStep(0); setRound(0); setResult(null);
     setSessionStats({ rounds: 0, wins: 0, losses: 0 }); setPhase('idle');
   }
-  const primaryLabel = phase === 'jumping' ? 'ПРЫЖОК…' : phase === 'running' ? 'ПРЫГАТЬ' : 'НАЧАТЬ РАУНД';
+  const primaryLabel = phase === 'jumping' ? 'ПРЫЖОК…' : phase === 'crashing' ? 'СТОЛКНОВЕНИЕ…' : phase === 'running' ? 'ПРЫГАТЬ' : 'НАЧАТЬ РАУНД';
   const resultTitle = result?.kind === 'loss' ? 'Машина задела курочку' : 'Очки сохранены';
   const safePercent = (1 - gameConfig.collisionChance) * 100;
   const expectedReturn = safePercent * multiplierFor(step + 1, gameConfig.safeMultiplier) / multiplierFor(step, gameConfig.safeMultiplier);
