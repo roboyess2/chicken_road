@@ -1,0 +1,7 @@
+{
+  "mode": "transparent-demo",
+  "collisionChance": 0.18,
+  "safeMultiplier": 1.16,
+  "visibleLanes": 7,
+  "outcomes": "Generated independently in the browser with the configured probability; no forced-loss schedule"
+}
