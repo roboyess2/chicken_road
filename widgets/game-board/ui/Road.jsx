@@ -55,6 +55,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
         style={{ '--camera-shift': `${100 / visibleLanes}%`, '--lane-width': `${100 / visibleLanes}%` }}
       >
         {rows.map((lane) => {
+          const isStart = lane === 0;
           const crossed = lane < step;
           const current = lane === playerLane;
           const isHitLane = (phase === 'crashing' || phase === 'lost') && lane === step + 1;
@@ -65,8 +66,8 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
           const showCar = lane > 0 && (!crossed || isStopped || isBraking);
           const showBarrier = crossed || isStopped || isBraking;
           return (
-            <div className={`road-lane ${current ? 'lane-current' : ''} ${crossed ? 'lane-crossed' : ''} ${isHitLane ? 'lane-hit' : ''}`} data-lane={lane} key={lane}>
-              <span className="lane-mark">{lane === 0 ? 'СТАРТ' : `#${lane}`}</span>
+            <div className={`road-lane ${isStart ? 'lane-start' : ''} ${current ? 'lane-current' : ''} ${crossed ? 'lane-crossed' : ''} ${isHitLane ? 'lane-hit' : ''}`} data-lane={lane} key={lane}>
+              <span className="lane-mark">{isStart ? 'СТАРТ' : `#${lane}`}</span>
               {lane > 0 && <span className={`lane-multiplier ${crossed ? 'is-secured' : ''}`}>×{Math.min(1e12, safeMultiplier ** lane).toFixed(2)}</span>}
               <span className="lane-dash" />
               {showBarrier && <span className={`road-blocker ${isStopped || isBraking ? 'road-blocker-stopped' : ''}`} aria-hidden="true"><i /><i /><i /></span>}
