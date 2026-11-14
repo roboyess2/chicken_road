@@ -1,11 +1,25 @@
+import brakeSound from '../assets/brake.mp3';
+import chickenDeadSound from '../assets/chicken_dead.mp3';
+import carCrushSound from '../assets/car_crush.mp3';
+
 let audioContext;
+let masterGain;
+let audioMuted = false;
+let brakeAudio;
+let chickenDeadAudio;
+let carCrushAudio;
 
 function getAudioContext() {
   if (typeof window === 'undefined') return null;
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   if (!AudioContextClass) return null;
   try {
-    audioContext ??= new AudioContextClass();
+    if (!audioContext) {
+      audioContext = new AudioContextClass();
+      masterGain = audioContext.createGain();
+      masterGain.gain.value = audioMuted ? 0 : 1;
+      masterGain.connect(audioContext.destination);
+    }
     if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
     return audioContext;
   } catch {
@@ -17,6 +31,45 @@ export function prepareGameAudio() {
   getAudioContext();
 }
 
+export function setAudioMuted(muted) {
+  audioMuted = Boolean(muted);
+  if (audioContext && masterGain) {
+    masterGain.gain.setTargetAtTime(audioMuted ? 0 : 1, audioContext.currentTime, 0.015);
+  }
+  if (audioMuted) {
+    [brakeAudio, chickenDeadAudio, carCrushAudio].forEach((audio) => {
+      audio?.pause();
+      if (audio) audio.currentTime = 0;
+    });
+  }
+}
+
+function playAudioFile(currentAudio, source, volume = 1) {
+  if (audioMuted || typeof Audio === 'undefined') return currentAudio;
+  try {
+    const audio = currentAudio ?? new Audio(source);
+    audio.volume = volume;
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+    return audio;
+  } catch {
+    // Audio playback is optional when the browser or device blocks media.
+    return currentAudio;
+  }
+}
+
+export function playBrake() {
+  brakeAudio = playAudioFile(brakeAudio, brakeSound, 0.5);
+}
+
+export function playCarCrush() {
+  carCrushAudio = playAudioFile(carCrushAudio, carCrushSound);
+}
+
+export function playChickenDead() {
+  chickenDeadAudio = playAudioFile(chickenDeadAudio, chickenDeadSound);
+}
+
 function tone(context, frequency, startAt, duration, { type = 'sine', volume = 0.07, endFrequency } = {}) {
   const oscillator = context.createOscillator();
   const gain = context.createGain();
@@ -26,12 +79,13 @@ function tone(context, frequency, startAt, duration, { type = 'sine', volume = 0
   gain.gain.setValueAtTime(0.0001, startAt);
   gain.gain.exponentialRampToValueAtTime(volume, startAt + Math.min(0.025, duration / 4));
   gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
-  oscillator.connect(gain).connect(context.destination);
+  oscillator.connect(gain).connect(masterGain ?? context.destination);
   oscillator.start(startAt);
   oscillator.stop(startAt + duration + 0.01);
 }
 
 export function playSafeHop() {
+  if (audioMuted) return;
   const context = getAudioContext();
   if (!context) return;
   const now = context.currentTime;
@@ -40,6 +94,7 @@ export function playSafeHop() {
 }
 
 export function playCashout() {
+  if (audioMuted) return;
   const context = getAudioContext();
   if (!context) return;
   const now = context.currentTime;
@@ -49,6 +104,7 @@ export function playCashout() {
 }
 
 export function playCrashPass() {
+  if (audioMuted) return;
   const context = getAudioContext();
   if (!context) return;
   const now = context.currentTime;
@@ -72,7 +128,7 @@ export function playCrashPass() {
   gain.gain.setValueAtTime(0.0001, now + 0.34);
   gain.gain.exponentialRampToValueAtTime(0.13, now + 0.37);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.58);
-  noise.connect(filter).connect(gain).connect(context.destination);
+  noise.connect(filter).connect(gain).connect(masterGain ?? context.destination);
   noise.start(now + 0.34);
   noise.stop(now + 0.6);
 }

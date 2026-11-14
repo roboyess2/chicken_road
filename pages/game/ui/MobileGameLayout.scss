@@ -1,0 +1,95 @@
+.app-shell.is-mobile { min-height: 100svh; height: auto; overflow: visible; background: #29292a; }
+.mobile-layout { display: flex; min-height: 100svh; flex-direction: column; color: #f6f4ed; background: #29292a; }
+.mobile-topbar { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 10px; min-height: 56px; padding: 0 12px; border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(55,55,56,.97); backdrop-filter: blur(12px); }
+.mobile-brand { display: inline-flex; min-width: 0; align-items: center; gap: 7px; color: #fff; text-decoration: none; font: 800 11px var(--display); letter-spacing: .04em; white-space: nowrap; }
+.mobile-brand > span:last-child > span { color: #ffd04a; }
+.mobile-brand-mark { display: grid; width: 30px; height: 30px; flex: 0 0 30px; place-items: center; overflow: hidden; border-radius: 50%; background: #ffd04a; }
+.mobile-brand-mark .chicken { display: block; width: 27px; height: 27px; object-fit: contain; transform: translateY(1px); }
+.mobile-balance { display: flex; min-width: 86px; flex-direction: column; align-items: center; gap: 1px; padding: 5px 8px; border: 1px solid rgba(255,255,255,.07); border-radius: 9px; background: #464647; }
+.mobile-balance small { color: #bdbdbd; font: 600 7px var(--mono); letter-spacing: .12em; }
+.mobile-balance b { color: #fff; font: 700 12px var(--display); white-space: nowrap; }
+.mobile-header-actions { display: flex; gap: 5px; }
+.mobile-icon-button { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(255,255,255,.12); border-radius: 9px; color: #e8e8e8; background: #464647; cursor: pointer; }
+.mobile-icon-button:active:not(:disabled) { transform: scale(.94); }
+.mobile-icon-button.is-muted { color: #d6a69c; }
+.mobile-icon-button:disabled { opacity: .42; }
+
+.mobile-main { display: grid; width: min(100%, 700px); flex: 1 0 auto; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 10px; margin: 0 auto; padding: 10px; }
+.mobile-game-card { min-width: 0; padding: 10px; border: 1px solid rgba(255,255,255,.1); border-radius: 17px; background: #39393a; box-shadow: 0 8px 22px rgba(0,0,0,.18); }
+.mobile-game-meta { display: flex; min-height: 28px; align-items: center; gap: 7px; margin-bottom: 8px; }
+.mobile-meta-chip { display: inline-flex; min-height: 24px; align-items: center; gap: 4px; padding: 0 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 999px; color: #e4e4e4; background: #4a4a4b; font: 700 8px var(--mono); letter-spacing: .04em; white-space: nowrap; }
+.mobile-meta-chip b { color: #ffda68; font-size: 11px; }
+.mobile-demo-state { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; color: #c3c3c3; font: 700 8px var(--mono); }
+.mobile-demo-state i, .mobile-control-foot i { width: 6px; height: 6px; border-radius: 50%; background: #42d879; box-shadow: 0 0 8px rgba(66,216,121,.5); }
+.mobile-road-stage { position: relative; height: clamp(215px, 38svh, 380px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 13px; background: #777371; }
+.mobile-road-stage .road-scene { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; border-radius: 0; background: #777371; }
+.mobile-road-stage .road-sky, .mobile-road-stage .road-edge { display: none; }
+.mobile-road-stage .road-lanes { inset: 0; width: 100%; height: 100%; border: 0; background: repeating-linear-gradient(90deg, rgba(0,0,0,.035) 0 1px, transparent 1px var(--lane-width)); }
+.mobile-road-stage .road-lane { overflow: hidden; border-right: 1px dashed rgba(247,245,233,.45); background: rgba(255,255,255,.012); }
+.mobile-road-stage .road-lane.lane-current { overflow: visible; }
+.mobile-game-status { display: flex; min-height: 42px; align-items: center; gap: 8px; padding: 8px 3px 0; color: #eee; }
+.mobile-status-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #ffd04a; box-shadow: 0 0 9px rgba(255,208,74,.45); }
+.mobile-game-status.is-danger .mobile-status-dot { background: #ff7567; box-shadow: 0 0 9px rgba(255,117,103,.45); }
+.mobile-game-status.is-success .mobile-status-dot { background: #75dd77; box-shadow: 0 0 9px rgba(117,221,119,.45); }
+.mobile-game-status > span:last-child { display: grid; min-width: 0; gap: 2px; }
+.mobile-game-status b { overflow: hidden; color: #fff; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-game-status small { overflow: hidden; color: #c4c4c4; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+
+.mobile-controls { display: grid; gap: 11px; padding: 13px; border: 1px solid rgba(255,255,255,.13); border-radius: 17px; background: #414142; box-shadow: 0 8px 22px rgba(0,0,0,.16); }
+.mobile-controls-main { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 12px; align-items: start; }
+.mobile-bet-controls, .mobile-payout-controls { display: grid; min-width: 0; gap: 7px; }
+.mobile-section-title { display: flex; min-height: 19px; align-items: center; justify-content: space-between; gap: 5px; }
+.mobile-section-title b { overflow: hidden; color: #fff; font: 700 11px var(--display); text-overflow: ellipsis; white-space: nowrap; }
+.mobile-section-title span { color: #d7c27b; font: 700 8px var(--mono); white-space: nowrap; }
+.mobile-bet-stepper { display: grid; height: 45px; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: #515152; }
+.mobile-bet-stepper button { display: grid; width: 36px; height: 44px; place-items: center; border: 0; color: #fff; background: transparent; font: 500 22px var(--display); cursor: pointer; }
+.mobile-bet-stepper button:disabled { color: #8a8a8a; cursor: not-allowed; }
+.mobile-bet-stepper > div { display: grid; min-width: 0; justify-items: center; gap: 1px; }
+.mobile-bet-stepper > div b { color: #fff; font: 700 16px var(--display); }
+.mobile-bet-stepper > div small { overflow: hidden; max-width: 100%; color: #c2c2c2; font-size: 6px; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-bet-presets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.mobile-bet-presets button { min-width: 0; min-height: 34px; border: 1px solid rgba(255,255,255,.09); border-radius: 8px; color: #eee; background: #505051; font: 700 9px var(--mono); cursor: pointer; }
+.mobile-bet-presets button.is-selected { border-color: #ffda68; color: #262626; background: #ffda68; }
+.mobile-bet-presets button:disabled { opacity: .42; cursor: not-allowed; }
+.mobile-payout-amount { display: grid; min-height: 45px; align-content: center; gap: 2px; }
+.mobile-payout-amount b { overflow: hidden; color: #ffda68; font: 700 clamp(17px, 5vw, 23px) var(--display); letter-spacing: -.04em; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-payout-amount small { overflow: hidden; color: #c4c4c4; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-multiplier-track { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 7px 0 1px; border-top: 1px solid rgba(255,255,255,.09); }
+.mobile-track-step { display: grid; min-width: 0; justify-items: center; gap: 4px; color: #d0d0d0; font: 8px var(--mono); }
+.mobile-track-step i { display: grid; width: 21px; height: 21px; place-items: center; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; color: #eee; font: normal 9px var(--mono); }
+.mobile-track-step.is-next { color: #ffdf82; }
+.mobile-track-step.is-next i { border-color: #ffdc76; color: #ffdc76; }
+.mobile-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.mobile-go-button, .mobile-cashout-button { display: flex; min-width: 0; min-height: 52px; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 0; border-radius: 11px; box-shadow: 0 4px 0 rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.18); cursor: pointer; }
+.mobile-go-button { position: relative; color: #fff; background: linear-gradient(145deg, #43d86e, #29bd56); font: 800 clamp(12px, 3.8vw, 16px) var(--display); }
+.mobile-go-button svg { display: none; }
+.mobile-cashout-button { color: #292929; background: linear-gradient(150deg, #ffdc59, #ffc63c); }
+.mobile-cashout-button span { font: 800 10px var(--display); letter-spacing: .03em; }
+.mobile-cashout-button b { font: 700 11px var(--mono); }
+.mobile-go-button:disabled { filter: saturate(.45); opacity: .55; cursor: not-allowed; }
+.mobile-cashout-button:disabled { filter: brightness(.84); opacity: 1; cursor: not-allowed; }
+.mobile-go-button:active:not(:disabled), .mobile-cashout-button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,.16); }
+.mobile-control-foot { display: flex; min-height: 14px; align-items: center; justify-content: space-between; gap: 6px; color: #c3c3c3; font: 7px var(--mono); letter-spacing: .04em; }
+.mobile-control-foot > span { display: inline-flex; align-items: center; gap: 5px; }
+.mobile-control-foot i { width: 5px; height: 5px; }
+.mobile-control-foot > b { color: #ff9d84; font: 700 8px var(--mono); text-align: right; }
+
+@media (max-width: 380px) {
+  .mobile-topbar { gap: 6px; padding-inline: 9px; }
+  .mobile-brand { gap: 0; }
+  .mobile-brand > span:last-child { display: none; }
+  .mobile-main { gap: 8px; padding: 8px; }
+  .mobile-game-card { padding: 8px; border-radius: 15px; }
+  .mobile-road-stage { height: clamp(205px, 36svh, 340px); }
+  .mobile-controls { gap: 9px; padding: 10px; border-radius: 15px; }
+  .mobile-controls-main { gap: 8px; }
+  .mobile-section-title b { font-size: 10px; }
+  .mobile-bet-stepper { grid-template-columns: 32px minmax(0, 1fr) 32px; }
+  .mobile-bet-stepper button { width: 32px; }
+  .mobile-track-step { font-size: 7px; }
+}
+
+@media (max-height: 500px) {
+  .mobile-road-stage { height: clamp(185px, 48svh, 270px); }
+  .mobile-main { gap: 8px; }
+}
