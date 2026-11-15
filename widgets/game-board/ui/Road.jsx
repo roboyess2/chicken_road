@@ -1,11 +1,12 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Car, Chicken } from '../../../entities/chicken/ui/Chicken.jsx';
 
-export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStoppedCarsChange, visibleLanes, safeMultiplier }) {
+export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStoppedCarsChange, visibleLanes, safeMultiplier, mobileLayout = false }) {
   const lanesRef = useRef(null);
   const [brakePositions, setBrakePositions] = useState({});
   const laneStart = Math.max(0, step - 2);
   const rows = Array.from({ length: visibleLanes }, (_, index) => laneStart + index);
+  const hasStartLane = rows[0] === 0;
   const cameraLocked = step >= 2;
   const playerLane = phase === 'jumping' || phase === 'crashing' || phase === 'lost' ? step + 1 : step;
   const cameraMoving = cameraLocked && phase === 'jumping';
@@ -51,8 +52,11 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
       <div className="road-edge edge-right"><span>✿</span><span>✿</span><span>✿</span></div>
       <div
         ref={lanesRef}
-        className={`road-lanes ${cameraMoving ? 'camera-moving' : ''} ${cameraSettled ? 'camera-settled' : ''}`}
-        style={{ '--camera-shift': `${100 / visibleLanes}%`, '--lane-width': `${100 / visibleLanes}%` }}
+        className={`road-lanes ${hasStartLane ? 'has-start-lane' : ''} ${cameraMoving ? 'camera-moving' : ''} ${cameraSettled ? 'camera-settled' : ''}`}
+        style={{
+          '--camera-shift': mobileLayout ? (hasStartLane ? '25%' : '33.333333%') : `${100 / visibleLanes}%`,
+          '--lane-width': mobileLayout ? (hasStartLane ? '25%' : '33.333333%') : `${100 / visibleLanes}%`,
+        }}
       >
         {rows.map((lane) => {
           const isStart = lane === 0;

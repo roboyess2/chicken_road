@@ -1,13 +1,6 @@
-import brakeSound from '../assets/brake.mp3';
-import chickenDeadSound from '../assets/chicken_dead.mp3';
-import carCrushSound from '../assets/car_crush.mp3';
-
 let audioContext;
 let masterGain;
 let audioMuted = false;
-let brakeAudio;
-let chickenDeadAudio;
-let carCrushAudio;
 
 function getAudioContext() {
   if (typeof window === 'undefined') return null;
@@ -36,38 +29,6 @@ export function setAudioMuted(muted) {
   if (audioContext && masterGain) {
     masterGain.gain.setTargetAtTime(audioMuted ? 0 : 1, audioContext.currentTime, 0.015);
   }
-  if (audioMuted) {
-    [brakeAudio, chickenDeadAudio, carCrushAudio].forEach((audio) => {
-      audio?.pause();
-      if (audio) audio.currentTime = 0;
-    });
-  }
-}
-
-function playAudioFile(currentAudio, source, volume = 1) {
-  if (audioMuted || typeof Audio === 'undefined') return currentAudio;
-  try {
-    const audio = currentAudio ?? new Audio(source);
-    audio.volume = volume;
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
-    return audio;
-  } catch {
-    // Audio playback is optional when the browser or device blocks media.
-    return currentAudio;
-  }
-}
-
-export function playBrake() {
-  brakeAudio = playAudioFile(brakeAudio, brakeSound, 0.5);
-}
-
-export function playCarCrush() {
-  carCrushAudio = playAudioFile(carCrushAudio, carCrushSound);
-}
-
-export function playChickenDead() {
-  chickenDeadAudio = playAudioFile(chickenDeadAudio, chickenDeadSound);
 }
 
 function tone(context, frequency, startAt, duration, { type = 'sine', volume = 0.07, endFrequency } = {}) {
@@ -103,32 +64,3 @@ export function playCashout() {
   tone(context, 1480, now + 0.11, 0.24, { type: 'sine', volume: 0.035 });
 }
 
-export function playCrashPass() {
-  if (audioMuted) return;
-  const context = getAudioContext();
-  if (!context) return;
-  const now = context.currentTime;
-  tone(context, 125, now, 0.62, { type: 'sawtooth', volume: 0.045, endFrequency: 48 });
-  tone(context, 72, now + 0.3, 0.28, { type: 'triangle', volume: 0.075, endFrequency: 38 });
-
-  const bufferLength = Math.floor(context.sampleRate * 0.24);
-  const buffer = context.createBuffer(1, bufferLength, context.sampleRate);
-  const channel = buffer.getChannelData(0);
-  for (let i = 0; i < bufferLength; i += 1) {
-    const fade = 1 - i / bufferLength;
-    channel[i] = (Math.random() * 2 - 1) * fade * fade;
-  }
-  const noise = context.createBufferSource();
-  const filter = context.createBiquadFilter();
-  const gain = context.createGain();
-  noise.buffer = buffer;
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(700, now + 0.34);
-  filter.frequency.exponentialRampToValueAtTime(120, now + 0.55);
-  gain.gain.setValueAtTime(0.0001, now + 0.34);
-  gain.gain.exponentialRampToValueAtTime(0.13, now + 0.37);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.58);
-  noise.connect(filter).connect(gain).connect(masterGain ?? context.destination);
-  noise.start(now + 0.34);
-  noise.stop(now + 0.6);
-}

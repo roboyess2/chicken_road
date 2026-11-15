@@ -1,34 +1,18 @@
 import './MobileGameLayout.scss';
-import { GAME_LIMITS, money, multiplierFor } from '../../../entities/game/model/gameRules.js';
+import { GAME_LIMITS, money } from '../../../entities/game/model/gameRules.js';
 import { Chicken } from '../../../entities/chicken/ui/Chicken.jsx';
 import { Icon } from '../../../shared/ui/Icon.jsx';
 import { Road } from '../../../widgets/game-board/ui/Road.jsx';
 
+const MOBILE_VISIBLE_LANES = 4; // Стартовый тротуар и три дорожные полосы.
+
 export function MobileGameLayout({ game, soundMuted, toggleSound }) {
   const {
-    gameConfig, apiStatus, balance, bet, step, phase, pendingHit, brakingLane, stoppedCars,
-    setStoppedCars, round, result, active, canEditBet, currentPayout, currentMultiplier,
-    primaryLabel, resultTitle, safePercent, changeBet, startRound, securePrize, jump,
+    gameConfig, balance, bet, step, phase, pendingHit, brakingLane, stoppedCars,
+    setStoppedCars, active, canEditBet, currentPayout,
+    primaryLabel, changeBet, startRound, securePrize, jump,
   } = game;
   const { MIN_BET, MAX_BET, BET_STEP } = GAME_LIMITS;
-  const statusTitle = phase === 'crashing'
-    ? 'Машина сбивает цыплёнка'
-    : result && result.kind === 'loss'
-      ? resultTitle
-      : result
-        ? 'Очки сохранены'
-        : active
-          ? step > 0 ? 'Полоса пройдена' : 'Дорога свободна'
-          : 'Готов к переходу?';
-  const statusDetail = phase === 'crashing'
-    ? 'Раунд завершается…'
-    : result?.kind === 'loss'
-      ? `Ставка ${money(result.amount)} потеряна`
-      : result
-        ? `Выплата ${money(result.amount)} добавлена к балансу`
-        : active
-          ? step > 0 ? 'Забери выплату или прыгай дальше' : 'Нажми кнопку, чтобы сделать первый прыжок'
-          : `Шанс пройти этап — ${safePercent.toLocaleString('ru-RU')}%`;
 
   return (
     <div className="mobile-layout">
@@ -47,12 +31,6 @@ export function MobileGameLayout({ game, soundMuted, toggleSound }) {
 
       <main className="mobile-main">
         <section className="mobile-game-card" aria-label="Игровое поле">
-          <div className="mobile-game-meta">
-            <span className="mobile-meta-chip">РАУНД {String(Math.max(round, 1)).padStart(2, '0')}</span>
-            <span className="mobile-meta-chip"><b>{step}</b> ПОЛОС</span>
-            <span className="mobile-demo-state"><i /> {apiStatus === 'loaded' ? 'ДЕМО' : apiStatus === 'loading' ? 'ЗАГРУЗКА' : 'FALLBACK'}</span>
-          </div>
-
           <div className="mobile-road-stage">
             <Road
               step={step}
@@ -61,15 +39,12 @@ export function MobileGameLayout({ game, soundMuted, toggleSound }) {
               brakingLane={brakingLane}
               stoppedCars={stoppedCars}
               onStoppedCarsChange={setStoppedCars}
-              visibleLanes={gameConfig.visibleLanes}
+              visibleLanes={MOBILE_VISIBLE_LANES}
               safeMultiplier={gameConfig.safeMultiplier}
+              mobileLayout
             />
           </div>
 
-          <div className={`mobile-game-status ${phase === 'crashing' || result?.kind === 'loss' ? 'is-danger' : result ? 'is-success' : ''}`} aria-live="polite">
-            <span className="mobile-status-dot" />
-            <span><b>{statusTitle}</b><small>{statusDetail}</small></span>
-          </div>
         </section>
 
         <section className="mobile-controls" aria-label="Ставка и управление">
@@ -88,21 +63,6 @@ export function MobileGameLayout({ game, soundMuted, toggleSound }) {
               </div>
             </div>
 
-            <div className="mobile-payout-controls">
-              <div className="mobile-section-title"><b>Забрать сейчас</b><span>×{currentMultiplier.toFixed(2)}</span></div>
-              <div className="mobile-payout-amount"><b>{money(currentPayout || bet)}</b><small>{step > 0 ? 'выплата с учётом ставки' : 'после первого прыжка'}</small></div>
-            </div>
-          </div>
-
-          <div className="mobile-multiplier-track" aria-label="Следующие коэффициенты">
-            {Array.from({ length: 5 }, (_, index) => {
-              const stage = step + index + 1;
-              return (
-                <div key={stage} className={`mobile-track-step ${index === 0 ? 'is-next' : ''}`}>
-                  <i>{stage}</i><span>×{multiplierFor(stage, gameConfig.safeMultiplier).toFixed(2)}</span>
-                </div>
-              );
-            })}
           </div>
 
           <div className="mobile-actions">
