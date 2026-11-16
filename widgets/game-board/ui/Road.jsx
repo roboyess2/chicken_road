@@ -48,7 +48,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
         <span className="hill hill-a" /><span className="hill hill-b" />
         <span className="tree tree-a">♣</span><span className="tree tree-b">♣</span><span className="tree tree-c">♣</span>
       </div>
-      <div className="road-edge edge-left"><span>✿</span><span>✿</span><span>✿</span></div>
+      {step === 0 && !['jumping', 'crashing', 'lost'].includes(phase) && <div className="road-edge edge-left"><span>✿</span><span>✿</span><span>✿</span></div>}
       <div className="road-edge edge-right"><span>✿</span><span>✿</span><span>✿</span></div>
       <div
         ref={lanesRef}
