@@ -59,7 +59,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
         }}
       >
         {rows.map((lane) => {
-          const isStart = lane === 0;
+          const isStart = lane === 0 && step === 0 && !['jumping', 'crashing', 'lost'].includes(phase);
           const crossed = lane < step;
           const current = lane === playerLane;
           const isHitLane = (phase === 'crashing' || phase === 'lost') && lane === step + 1;
@@ -78,7 +78,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
               {showCar && <Car
                 variant={(lane - 1) % 3}
                 delay={`${lane * -0.45}s`}
-                duration={`${1.25 + (lane % 4) * 0.2}s`}
+                duration={`${(1.25 + (lane % 4) * 0.2) / 1.3}s`}
                 braking={isBraking}
                 brakeReady={Boolean(brakePosition)}
                 stopped={isStopped}
@@ -87,7 +87,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
                 onBrakeEnd={() => onStoppedCarsChange((previous) => previous[lane] ? previous : { ...previous, [lane]: brakePosition?.to })}
               />}
               {isHitLane && <Car variant={step % 3} delay="0s" duration=".55s" />}
-              {current && <span className={`chicken-position ${phase === 'jumping' ? 'jumping' : ''} ${phase === 'crashing' ? 'crashing' : ''} ${cameraLocked ? 'camera-locked' : ''} ${phase === 'lost' ? 'falling' : ''}`}><Chicken crashed={phase === 'lost'} /></span>}
+              {current && <span key={`chicken-${step}-${phase}`} className={`chicken-position ${phase === 'jumping' ? 'jumping' : ''} ${phase === 'crashing' ? 'crashing' : ''} ${cameraLocked ? 'camera-locked' : ''} ${phase === 'lost' ? 'falling' : ''}`}><Chicken jumping={phase === 'jumping' || phase === 'crashing'} crashed={phase === 'lost'} /></span>}
               {lane === step + 1 && phase === 'jumping' && !pendingHit && <span className="safe-landing"><span>✦</span></span>}
             </div>
           );

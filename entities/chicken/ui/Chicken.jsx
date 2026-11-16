@@ -1,7 +1,8 @@
 import carOne from '../assets/cars/1.png';
 import carTwo from '../assets/cars/2.png';
 import carThree from '../assets/cars/3.png';
-import chickenImage from '../assets/chicken.png';
+import idleChickenImage from '../assets/chicken_stay.webp';
+import flyingChickenImage from '../assets/chicken_fly.webp';
 import deadChickenImage from '../assets/chicken_dead.png';
 
 const CAR_IMAGES = [carOne, carTwo, carThree];
@@ -16,9 +17,9 @@ export function Chicken({ jumping = false, crashed = false }) {
   if (crashed) return <SquashedChicken />;
   return (
     <img
-      className={`chicken ${jumping ? 'is-jumping' : ''}`}
-      src={chickenImage}
-      alt={jumping ? 'Цыплёнок прыгает' : 'Цыплёнок'}
+      className={`chicken ${jumping ? 'is-flying' : 'is-idle'}`}
+      src={jumping ? flyingChickenImage : idleChickenImage}
+      alt={jumping ? 'Цыплёнок перелетает дорогу' : 'Цыплёнок стоит'}
       draggable="false"
     />
   );

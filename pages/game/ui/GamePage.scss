@@ -557,5 +557,237 @@ body { background: #252526; }
     linear-gradient(90deg, #173d27, #315b35);
   box-shadow: inset -2px 0 rgba(255,255,255,.08);
 }
+.road-edge.edge-left::before,
+.road-edge.edge-left::after {
+  position: absolute;
+  left: 50%;
+  display: grid;
+  width: 14px;
+  height: 17px;
+  place-items: center;
+  color: #493c25;
+  background: #ffd86a;
+  clip-path: polygon(50% 0, 100% 94%, 0 94%);
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.35));
+  font: 800 10px/1 var(--display);
+  text-align: center;
+  transform: translateX(-50%);
+}
+.road-edge.edge-left::before { content: '!'; top: 15%; }
+.road-edge.edge-left::after { content: '!'; bottom: 15%; }
 .road-edge.edge-left span { display: none; }
 .road-edge.edge-right { display: none; }
+
+/* Blue and white game theme shared by desktop and mobile road surfaces. */
+:root {
+  color: #f5f9ff;
+  background: #07152a;
+  --muted: #a9bdd6;
+  --line: rgba(179, 210, 247, .19);
+  --green: #72bdff;
+  --green-deep: #163d68;
+  --panel: #0d2039;
+  --panel-soft: #132b49;
+}
+body { color: #f5f9ff; background: radial-gradient(ellipse at 50% -12%, #1a3c66 0, #0a1b33 46%, #061225 100%); }
+button:focus-visible, a:focus-visible { outline-color: #9ad3ff; }
+.app-shell { color: #f5f9ff; }
+.ambient-one { background: #4fafff; }
+.ambient-two { background: #276fc2; }
+.topbar { border-color: rgba(198,224,255,.14); }
+.brand { color: #f7fbff; }
+.brand-mark { background: linear-gradient(145deg,#fff,#cce7ff); box-shadow: 0 4px 18px rgba(75,163,255,.3); }
+.brand-name span, h1 span { color: #80c7ff; }
+.live-dot { background: #9dd8ff; box-shadow: 0 0 0 4px rgba(116,190,255,.15); }
+.eyebrow, .section-kicker { color: #9fb7d3; }
+.eyebrow-line { background: #69b7ff; }
+.hero-copy { color: #b1c5dd; }
+.game-card, .session-card, .recent-card, .bet-card, .rules-card {
+  border-color: rgba(183,214,250,.2);
+  background: linear-gradient(145deg, rgba(19,42,70,.98), rgba(9,25,46,.99));
+  box-shadow: 0 18px 55px rgba(0,0,0,.2);
+}
+.mini-icon { color: #9ad3ff; background: rgba(88,167,239,.16); }
+.road-wrap { background: #526780; }
+.road-scene { background: #526780; }
+.road-lanes { background: repeating-linear-gradient(90deg,rgba(13,34,60,.08) 0 1px,transparent 1px var(--lane-width)); }
+.road-lane { border-color: rgba(242,248,255,.5); background: rgba(240,247,255,.045); }
+.road-lane:nth-child(even) { background: rgba(12,31,55,.1); }
+.road-lane::after { border-left-color: rgba(250,253,255,.88); }
+.road-lane.lane-crossed { background: rgba(20,83,145,.2); }
+.road-lane.lane-current { background: rgba(62,151,236,.2); box-shadow: inset 0 0 42px rgba(102,182,255,.18); }
+.road-scene[data-phase="jumping"] .road-lane.lane-current { box-shadow: inset 0 0 64px rgba(157,213,255,.28); }
+.road-lane.lane-start,
+.road-lane.lane-start.lane-current,
+.road-lane.lane-start.lane-crossed {
+  background-color: #c5d7ea !important;
+  background-image:
+    linear-gradient(90deg, transparent 94%, rgba(51,77,108,.34) 94%),
+    linear-gradient(0deg, transparent 92%, rgba(51,77,108,.34) 92%),
+    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.32) 49%, transparent 51%),
+    linear-gradient(145deg, #edf5ff, #b8cce2 68%, #d1e0f0) !important;
+  background-size: 24px 22px, 24px 22px, 48px 44px, 100% 100% !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.55), inset 0 -1px rgba(41,65,95,.2);
+}
+.road-lane.lane-start::before {
+  border-left-color: rgba(255,255,255,.9);
+  background:
+    repeating-linear-gradient(180deg, rgba(255,255,255,.3) 0 2px, transparent 2px 22px),
+    linear-gradient(90deg, #829ab5, #607994 50%, #3d5675);
+  box-shadow: 4px 0 10px rgba(12,31,55,.36), inset -2px 0 rgba(255,255,255,.25);
+}
+.road-lane.lane-start .lane-mark {
+  color: #fff !important;
+  background: linear-gradient(180deg, #3e8bd2, #225f9f) !important;
+  box-shadow: 0 3px 8px rgba(22,56,93,.28), inset 0 1px rgba(255,255,255,.24);
+}
+.road-lane.lane-current .lane-mark { border-color: #bfe4ff; color: #fff !important; background: rgba(28,91,150,.92); }
+.road-lane.lane-crossed .lane-mark { border-color: #b5d9fa; color: #f4faff !important; background: rgba(31,82,131,.92); }
+.lane-mark { color: rgba(250,253,255,.85); }
+.lane-multiplier {
+  border-color: rgba(18,45,78,.7);
+  color: #f7fbff;
+  background: radial-gradient(circle at 38% 31%,rgba(255,255,255,.26),transparent 37%),rgba(24,72,122,.72);
+  box-shadow: inset 0 0 0 5px rgba(226,241,255,.13),0 5px 14px rgba(0,0,0,.2);
+}
+.lane-multiplier.is-secured {
+  color: #fff;
+  border-color: rgba(200,231,255,.96);
+  background: radial-gradient(circle at 35% 26%,rgba(255,255,255,.34),transparent 39%),linear-gradient(145deg,rgba(60,151,225,.98),rgba(31,91,153,.98));
+  box-shadow: inset 0 0 0 4px rgba(239,248,255,.2),0 0 24px rgba(80,168,245,.45),0 5px 13px rgba(0,0,0,.24);
+}
+.road-blocker {
+  border-color: #f5f9ff;
+  background: repeating-linear-gradient(135deg,#f8fbff 0 16px,#3186db 16px 32px);
+  box-shadow: 0 10px 0 rgba(13,31,51,.34),0 17px 22px rgba(0,0,0,.28);
+  filter: drop-shadow(0 8px 5px rgba(9,22,39,.25));
+}
+.road-blocker i { background: #eaf4ff; border-color: #45627f; }
+.chicken-position { background: radial-gradient(ellipse,rgba(184,223,255,.42) 0%,rgba(127,192,245,.17) 48%,transparent 72%); }
+.safe-landing { border-color: rgba(188,226,255,.9); background: rgba(63,150,226,.24); box-shadow: 0 0 0 0 rgba(161,217,255,.55); }
+.road-lanes.camera-moving { will-change: transform; }
+.header-balance { background: #153255; border: 1px solid rgba(192,222,255,.15); }
+.header-balance small { color: #abc4e0; }
+.sound-toggle { border-color: rgba(188,218,250,.22); color: #edf6ff; background: #173657; }
+.sound-toggle:hover { border-color: rgba(133,199,255,.6); background: #204977; }
+.sound-toggle.is-muted { color: #a8bfd8; }
+.bet-heading h2, .payout-heading h2 { color: #f4f8ff; }
+.bet-stepper { border-color: rgba(177,211,250,.24); background: #102a49; }
+.bet-stepper > button { color: #d7eaff; }
+.bet-stepper > button:hover:not(:disabled) { color: #fff; background: rgba(100,176,245,.15); }
+.bet-stepper > button:disabled { color: #7890ab; }
+.bet-presets button { border-color: rgba(177,211,250,.2); color: #eaf5ff; background: #173657; }
+.bet-presets button.selected { border-color: #fff; color: #16416f; background: #eaf5ff; }
+.payout-value b { color: #a9d8ff; }
+.multiplier-step i { border-color: rgba(186,220,255,.48); color: #eaf5ff; background: #173a61; }
+.multiplier-step.next i { color: #16416f; border-color: #fff; background: #eaf5ff; }
+.primary-action, .cashout-action {
+  border: 1px solid rgba(226,241,255,.62);
+  box-shadow: 0 6px 0 rgba(2,15,31,.2),0 10px 20px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.3);
+}
+.primary-action { color: #fff; background: linear-gradient(145deg,#4aa6f5,#1769bd); }
+.cashout-action { color: #17416d; background: linear-gradient(150deg,#fff,#dceeff); }
+.cashout-action span { color: #17416d; }
+.cashout-action b { color: #53779c; }
+.primary-action:hover:not(:disabled) { filter: brightness(1.12); }
+.cashout-action:hover:not(:disabled) { color: #0a2f58; border-color: #fff; background: linear-gradient(150deg,#fff,#cfe7ff); }
+.primary-action:disabled, .cashout-action:disabled { opacity: .52; filter: saturate(.72); }
+.primary-action:active:not(:disabled), .cashout-action:active:not(:disabled) { box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.session-stats .stat-green, .status-success .status-icon { color: #a6d8ff; }
+.status-message.status-success { border-color: rgba(150,210,255,.35); }
+.balance-card { border-color: rgba(136,197,255,.28); background: radial-gradient(ellipse at 85% 20%,rgba(89,166,240,.2),transparent 48%),linear-gradient(140deg,#15385f,#102747); }
+.game-status-row .status-message { border-color: rgba(197,224,255,.28); background: rgba(13,34,59,.88); }
+
+/* Move the chicken from the previous lane center to the next one at every width. */
+@keyframes lane-hop-horizontal {
+  0% { left: -50%; transform: translate(-50%,-50%) scale(.88); }
+  35% { left: -8%; transform: translate(-50%,calc(-50% - 23px)) rotate(6deg) scale(1.08); }
+  72% { left: 34%; transform: translate(-50%,calc(-50% - 17px)) rotate(-4deg) scale(1.04); }
+  100% { left: 50%; transform: translate(-50%,-51%) rotate(0) scale(1); }
+}
+@keyframes lane-hop-horizontal-mobile {
+  0% { left: -50%; transform: translate(-50%,-50%) scale(.88); }
+  38% { left: -5%; transform: translate(-50%,calc(-50% - 17px)) rotate(6deg) scale(1.06); }
+  72% { left: 34%; transform: translate(-50%,calc(-50% - 12px)) rotate(-4deg) scale(1.03); }
+  100% { left: 50%; transform: translate(-50%,-51%) rotate(0) scale(1); }
+}
+.lane-hit .car { animation-duration: .48s; }
+
+/* Repeat a fresh flight animation for each jump, including when the camera follows. */
+@keyframes stationary-hop {
+  0% { transform: translate(-50%,-51%) scale(.94,1); }
+  28% { transform: translate(-50%,calc(-51% - 25px)) rotate(5deg) scale(1.04,.96); }
+  60% { transform: translate(-50%,calc(-51% - 30px)) rotate(-4deg) scale(.97,1.05); }
+  82% { transform: translate(-50%,calc(-51% - 8px)) rotate(2deg) scale(1.02,.98); }
+  100% { transform: translate(-50%,-51%) rotate(0) scale(1); }
+}
+@keyframes stationary-hop-mobile {
+  0% { transform: translate(-50%,-51%) scale(.94,1); }
+  28% { transform: translate(-50%,calc(-51% - 18px)) rotate(5deg) scale(1.04,.96); }
+  60% { transform: translate(-50%,calc(-51% - 22px)) rotate(-4deg) scale(.97,1.05); }
+  82% { transform: translate(-50%,calc(-51% - 5px)) rotate(2deg) scale(1.02,.98); }
+  100% { transform: translate(-50%,-51%) rotate(0) scale(1); }
+}
+
+/* Staggered concrete slabs with recessed joints, fine aggregate and a raised curb. */
+.road-lane.lane-start,
+.road-lane.lane-start.lane-current,
+.road-lane.lane-start.lane-crossed {
+  background-color: #cbd7df !important;
+  background-image:
+    radial-gradient(circle at 21% 27%, rgba(70,91,110,.16) 0 .7px, transparent 1.25px),
+    radial-gradient(circle at 69% 63%, rgba(255,255,255,.56) 0 .8px, transparent 1.45px),
+    linear-gradient(90deg, transparent calc(100% - 3px), rgba(50,70,88,.34) calc(100% - 3px) calc(100% - 1px), rgba(255,255,255,.55) calc(100% - 1px) 100%),
+    linear-gradient(90deg, transparent 48%, rgba(50,70,88,.32) 49% 51%, rgba(255,255,255,.48) 52%, transparent 54%),
+    linear-gradient(0deg, transparent calc(100% - 3px), rgba(50,70,88,.35) calc(100% - 3px) calc(100% - 1px), rgba(255,255,255,.5) calc(100% - 1px) 100%),
+    linear-gradient(145deg, #e5edf2 0%, #cbd6dc 44%, #bbc8d0 100%) !important;
+  background-size: 17px 17px, 23px 19px, 62px 80px, 62px 80px, 62px 40px, 100% 100% !important;
+  background-position: 0 0, 7px 5px, 0 0, 0 40px, 0 0, 0 0 !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.74), inset 0 -1px rgba(43,64,81,.2);
+}
+.road-lane.lane-start::before {
+  width: clamp(14px, 2.6vw, 24px);
+  border-left: 3px solid #f8fbff;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 43px, rgba(55,72,88,.48) 43px 46px),
+    linear-gradient(90deg, #e7edf0 0 13%, #c2cdd2 14% 55%, #84949e 100%);
+  box-shadow: 4px 0 13px rgba(13,29,45,.36), inset 2px 0 rgba(255,255,255,.72), inset -2px 0 rgba(48,65,78,.28);
+}
+.road-lane.lane-start::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: clamp(14px, 2.6vw, 24px);
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(90deg, rgba(255,255,255,.75), rgba(45,64,82,.25));
+  box-shadow: 1px 0 4px rgba(35,52,67,.22);
+  pointer-events: none;
+}
+.road-lane.lane-start .lane-mark {
+  border-color: rgba(240,248,255,.85);
+  background: linear-gradient(180deg, #3e8bd2, #225f9f) !important;
+}
+
+/* Fuller leafy verge like the reference, still scaled with the playfield. */
+.road-edge.edge-left {
+  width: clamp(26px, 5vw, 58px);
+  border-right-color: rgba(207,231,171,.56);
+  background-color: #3c742c;
+  background-image:
+    radial-gradient(ellipse at 22% 7%, rgba(218,249,151,.5) 0 3%, transparent 13%),
+    radial-gradient(ellipse at 18% 10%, #9bc957 0 10%, #6f9e3e 11% 20%, #426d2f 22%, transparent 25%),
+    radial-gradient(ellipse at 79% 21%, rgba(207,241,135,.45) 0 3%, transparent 12%),
+    radial-gradient(ellipse at 74% 23%, #83b848 0 12%, #568b35 13% 23%, #375f2b 25%, transparent 28%),
+    radial-gradient(ellipse at 29% 42%, #91c34f 0 11%, #669c3a 12% 22%, #3c682d 24%, transparent 27%),
+    radial-gradient(ellipse at 85% 54%, rgba(210,242,135,.45) 0 3%, transparent 12%),
+    radial-gradient(ellipse at 78% 57%, #7caf42 0 12%, #4f8432 13% 23%, #315b28 25%, transparent 28%),
+    radial-gradient(ellipse at 24% 78%, #9ac65a 0 12%, #5f9138 13% 23%, #355e29 25%, transparent 28%),
+    radial-gradient(ellipse at 81% 91%, #78aa40 0 11%, #4b7d31 12% 22%, #315727 24%, transparent 27%),
+    repeating-linear-gradient(112deg, transparent 0 8px, rgba(174,219,103,.16) 8px 9px, transparent 9px 15px),
+    linear-gradient(90deg, #244d28, #4f7e32);
+  box-shadow: inset -3px 0 rgba(255,255,255,.18), inset -8px 0 12px rgba(23,49,27,.22);
+}
+.road-edge.edge-left::before,
+.road-edge.edge-left::after { content: none; }

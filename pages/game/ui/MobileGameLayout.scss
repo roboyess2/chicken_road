@@ -17,16 +17,17 @@
 .mobile-main { display: grid; width: min(100%, 700px); flex: 1 0 auto; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 10px; margin: 0 auto; padding: 10px; }
 .mobile-game-card { min-width: 0; padding: 10px; border: 1px solid rgba(255,255,255,.1); border-radius: 17px; background: #39393a; box-shadow: 0 8px 22px rgba(0,0,0,.18); }
 .mobile-control-foot i { width: 6px; height: 6px; border-radius: 50%; background: #42d879; box-shadow: 0 0 8px rgba(66,216,121,.5); }
-.mobile-road-stage { position: relative; height: clamp(215px, 38svh, 380px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 13px; background: #171625; }
-.mobile-road-stage .road-scene { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; overflow: hidden; border-radius: 0; background: #171625; }
+.mobile-road-stage { position: relative; height: clamp(215px, 38svh, 380px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 13px; background: #777371; }
+.mobile-road-stage .road-scene { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; overflow: hidden; border-radius: 0; background: #777371; }
 .mobile-road-stage .road-sky, .mobile-road-stage .road-edge.edge-right { display: none; }
-.mobile-road-stage .road-lanes { inset: 0; width: 100%; height: 100%; overflow: visible; border: 0; background: repeating-linear-gradient(90deg, rgba(213,209,236,.035) 0 1px, transparent 1px var(--lane-width)); }
-.mobile-road-stage .road-lane { flex: 0 0 var(--lane-width); overflow: hidden; border: 0; background: linear-gradient(90deg, #171625, #1b1a2b); }
-.mobile-road-stage .road-lane:nth-child(even) { background: linear-gradient(90deg, #191829, #1d1c2e); }
-.mobile-road-stage .road-lane::after { left: 50%; top: 0; width: 0; height: 100%; border: 0; border-left: 2px dashed rgba(183,178,209,.22); opacity: 1; transform: translateX(-50%); animation: none; }
-.mobile-road-stage .road-lane.lane-start .lane-mark { display: none; }
+.mobile-road-stage .road-lanes { inset: 0; width: 100%; height: 100%; overflow: visible; border: 0; background: repeating-linear-gradient(90deg,rgba(0,0,0,.035) 0 1px,transparent 1px var(--lane-width)); }
+.mobile-road-stage .road-lane { flex: 0 0 var(--lane-width); overflow: hidden; border-right: 1px dashed rgba(247,245,233,.48); background: rgba(255,255,255,.012); }
+.mobile-road-stage .road-lane:nth-child(even) { background: rgba(0,0,0,.018); }
+.mobile-road-stage .road-lane::after { left: 50%; top: 0; width: 0; height: 100%; border: 0; border-left: 4px dashed rgba(242,240,228,.78); opacity: .9; transform: translateX(-50%); animation: dash-flicker 3.4s ease-in-out infinite; }
+.mobile-road-stage .road-lane.lane-start .lane-mark { display: block; left: 50%; top: auto; bottom: 8px; transform: translateX(-50%); padding: 4px 6px; font-size: clamp(6px, 1.8vw, 9px) !important; }
 .mobile-road-stage .road-lanes:not(.has-start-lane) .road-lane { flex: 0 0 33.333333%; }
-.mobile-road-stage .road-lane.lane-current:not(.lane-start) { background: linear-gradient(90deg, #292638, #302d3a); box-shadow: inset 0 0 30px rgba(255,213,116,.08); }
+.mobile-road-stage .road-lane.lane-crossed { background: rgba(44,42,41,.11); }
+.mobile-road-stage .road-lane.lane-current:not(.lane-start) { background: rgba(255,203,61,.065); box-shadow: inset 0 0 42px rgba(255,205,71,.07); }
 .mobile-road-stage .road-lane.lane-current { overflow: visible; }
 
 .mobile-controls { display: grid; gap: 11px; padding: 13px; border: 1px solid rgba(255,255,255,.13); border-radius: 17px; background: #414142; box-shadow: 0 8px 22px rgba(0,0,0,.16); }
@@ -78,4 +79,61 @@
 @media (max-height: 500px) {
   .mobile-road-stage { height: clamp(185px, 48svh, 270px); }
   .mobile-main { gap: 8px; }
+}
+
+/* Keep the dedicated mobile screen in the same blue and white palette as desktop. */
+.app-shell.is-mobile { background: #081a31; }
+.mobile-layout { color: #f5f9ff; background: linear-gradient(180deg,#102847,#081a31 45%,#061225); }
+.mobile-topbar { border-color: rgba(183,214,250,.19); background: rgba(12,34,60,.97); }
+.mobile-brand { color: #f7fbff; }
+.mobile-brand > span:last-child > span { color: #8bcaff; }
+.mobile-brand-mark { background: linear-gradient(145deg,#fff,#cce7ff); }
+.mobile-balance { border-color: rgba(188,220,255,.2); background: #173657; }
+.mobile-balance small { color: #b4cbe4; }
+.mobile-balance b { color: #fff; }
+.mobile-icon-button { border-color: rgba(188,220,255,.23); color: #eff7ff; background: #173657; }
+.mobile-icon-button.is-muted { color: #a8bfd8; }
+.mobile-game-card { border-color: rgba(183,214,250,.2); background: linear-gradient(145deg,#173556,#102743); }
+.mobile-road-stage { border-color: rgba(211,233,255,.28); background: #526780; }
+.mobile-road-stage .road-scene { background: #526780; }
+.mobile-road-stage .road-lanes { background: repeating-linear-gradient(90deg,rgba(13,34,60,.08) 0 1px,transparent 1px var(--lane-width)); }
+.mobile-road-stage .road-lane { border-color: rgba(242,248,255,.5); background: rgba(240,247,255,.045); }
+.mobile-road-stage .road-lane:nth-child(even) { background: rgba(12,31,55,.1); }
+.mobile-road-stage .road-lane::after { border-left-color: rgba(250,253,255,.88); }
+.mobile-road-stage .road-lane.lane-crossed { background: rgba(20,83,145,.2); }
+.mobile-road-stage .road-lane.lane-current:not(.lane-start) { background: rgba(62,151,236,.2); box-shadow: inset 0 0 42px rgba(102,182,255,.18); }
+.mobile-road-stage .road-lane.lane-start .lane-mark { color: #fff !important; background: linear-gradient(180deg,#3e8bd2,#225f9f) !important; }
+.mobile-controls { border-color: rgba(183,214,250,.2); background: linear-gradient(145deg,#173556,#102743); }
+.mobile-section-title span { color: #9ed4ff; }
+.mobile-bet-stepper { border-color: rgba(177,211,250,.24); background: #102a49; }
+.mobile-bet-stepper button { color: #e4f2ff; }
+.mobile-bet-stepper button:disabled { color: #7890ab; }
+.mobile-bet-stepper > div b { color: #fff; }
+.mobile-bet-stepper > div small { color: #adc2dc; }
+.mobile-bet-presets button { border-color: rgba(177,211,250,.22); color: #edf6ff; background: #173657; }
+.mobile-bet-presets button.is-selected { border-color: #fff; color: #16416f; background: #eaf5ff; }
+.mobile-go-button, .mobile-cashout-button { border: 1px solid rgba(226,241,255,.62); box-shadow: 0 4px 0 rgba(2,15,31,.24),inset 0 1px rgba(255,255,255,.28); }
+.mobile-go-button { color: #fff; background: linear-gradient(145deg,#4aa6f5,#1769bd); }
+.mobile-cashout-button { color: #17416d; background: linear-gradient(150deg,#fff,#dceeff); }
+.mobile-cashout-button:disabled { filter: saturate(.65); opacity: .56; }
+.mobile-go-button:disabled { filter: saturate(.65); opacity: .56; }
+.mobile-control-foot { color: #b8cce2; }
+.mobile-control-foot i { background: #8acbff; box-shadow: 0 0 8px rgba(112,190,255,.55); }
+.mobile-control-foot > b { color: #b7ddff; }
+.mobile-road-stage .road-lane.lane-start { border-right: 0; }
+.mobile-road-stage .road-lane.lane-start::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: clamp(14px, 2.6vw, 24px);
+  bottom: 0;
+  left: auto;
+  width: 3px;
+  height: auto;
+  border: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.75), rgba(45,64,82,.25));
+  box-shadow: 1px 0 4px rgba(35,52,67,.22);
+  transform: none;
+  animation: none;
 }

@@ -1,6 +1,9 @@
+import chickenDeathSound from '../assets/chicken_dead.mp3';
+
 let audioContext;
 let masterGain;
 let audioMuted = false;
+let chickenDeathAudio;
 
 function getAudioContext() {
   if (typeof window === 'undefined') return null;
@@ -26,9 +29,21 @@ export function prepareGameAudio() {
 
 export function setAudioMuted(muted) {
   audioMuted = Boolean(muted);
+  if (chickenDeathAudio) chickenDeathAudio.muted = audioMuted;
   if (audioContext && masterGain) {
     masterGain.gain.setTargetAtTime(audioMuted ? 0 : 1, audioContext.currentTime, 0.015);
   }
+}
+
+export function playChickenDeath() {
+  if (audioMuted || typeof window === 'undefined' || !window.Audio) return;
+  if (!chickenDeathAudio) {
+    chickenDeathAudio = new window.Audio(chickenDeathSound);
+    chickenDeathAudio.volume = 0.5;
+  }
+  chickenDeathAudio.pause();
+  chickenDeathAudio.currentTime = 0;
+  chickenDeathAudio.play().catch(() => {});
 }
 
 function tone(context, frequency, startAt, duration, { type = 'sine', volume = 0.07, endFrequency } = {}) {

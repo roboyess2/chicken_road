@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DEFAULT_GAME_CONFIG, GAME_LIMITS, multiplierFor, payoutFor } from '../../../entities/game/model/gameRules.js';
 import { getGameConfig } from '../../../entities/game/api/gameConfigApi.js';
-import { prepareGameAudio, playSafeHop, playCashout } from '../../../shared/lib/gameSounds.js';
+import { prepareGameAudio, playSafeHop, playCashout, playChickenDeath } from '../../../shared/lib/gameSounds.js';
 
 export function useGameSession() {
   const [gameConfig, setGameConfig] = useState(DEFAULT_GAME_CONFIG);
@@ -59,6 +59,7 @@ export function useGameSession() {
       if (hit) {
         setBrakingLane(null);
         setPhase('crashing');
+        playChickenDeath();
         timerRef.current = window.setTimeout(() => {
           setPhase('lost'); setResult({ kind: 'loss', amount: bet, steps: step });
           setSessionStats((value) => ({ ...value, losses: value.losses + 1 }));
