@@ -41,6 +41,7 @@ export function MobileGameLayout({ game, soundMuted, toggleSound }) {
               onStoppedCarsChange={setStoppedCars}
               visibleLanes={MOBILE_VISIBLE_LANES}
               safeMultiplier={gameConfig.safeMultiplier}
+              onJump={jump}
               mobileLayout
             />
           </div>
@@ -65,10 +66,10 @@ export function MobileGameLayout({ game, soundMuted, toggleSound }) {
 
           </div>
 
-          <div className="mobile-actions">
-            <button className="mobile-go-button" onClick={active ? jump : startRound} disabled={phase === 'jumping' || phase === 'crashing' || (!active && balance < bet)}>
+          <div className={`mobile-actions ${active ? 'is-active' : ''}`}>
+            {!active && <button className="mobile-go-button" onClick={startRound} disabled={balance < bet}>
               <span>{primaryLabel}</span><Icon name="arrow" size={18} />
-            </button>
+            </button>}
             <button className="mobile-cashout-button" onClick={() => securePrize()} disabled={phase !== 'running' || step === 0}>
               <span>ЗАБРАТЬ</span><b>{money(currentPayout)}</b>
             </button>

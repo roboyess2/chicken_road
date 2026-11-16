@@ -68,7 +68,7 @@ export function GamePage() {
           <section className="game-card" aria-label="Игровое поле">
             <div className="road-wrap">
               <div className="scene-label scene-label-left"><span className="scene-label-dot" /> ГОРОДСКОЙ ПЕРЕХОД</div>
-              <Road step={step} phase={phase} pendingHit={pendingHit} brakingLane={brakingLane} stoppedCars={stoppedCars} onStoppedCarsChange={setStoppedCars} visibleLanes={gameConfig.visibleLanes} safeMultiplier={gameConfig.safeMultiplier} />
+              <Road step={step} phase={phase} pendingHit={pendingHit} brakingLane={brakingLane} stoppedCars={stoppedCars} onStoppedCarsChange={setStoppedCars} visibleLanes={gameConfig.visibleLanes} safeMultiplier={gameConfig.safeMultiplier} onJump={jump} />
               <div className="road-underlay" />
             </div>
 

@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Car, Chicken } from '../../../entities/chicken/ui/Chicken.jsx';
 
-export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStoppedCarsChange, visibleLanes, safeMultiplier, mobileLayout = false }) {
+export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStoppedCarsChange, visibleLanes, safeMultiplier, onJump, mobileLayout = false }) {
   const lanesRef = useRef(null);
   const [brakePositions, setBrakePositions] = useState({});
   const laneStart = Math.max(0, step - 2);
@@ -54,8 +54,8 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
         ref={lanesRef}
         className={`road-lanes ${hasStartLane ? 'has-start-lane' : ''} ${cameraMoving ? 'camera-moving' : ''} ${cameraSettled ? 'camera-settled' : ''}`}
         style={{
-          '--camera-shift': mobileLayout ? (hasStartLane ? '25%' : '33.333333%') : `${100 / visibleLanes}%`,
-          '--lane-width': mobileLayout ? (hasStartLane ? '25%' : '33.333333%') : `${100 / visibleLanes}%`,
+          '--camera-shift': mobileLayout ? '25%' : `${100 / visibleLanes}%`,
+          '--lane-width': mobileLayout ? '25%' : `${100 / visibleLanes}%`,
         }}
       >
         {rows.map((lane) => {
@@ -71,14 +71,20 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
           const showBarrier = crossed || isStopped || isBraking;
           return (
             <div className={`road-lane ${isStart ? 'lane-start' : ''} ${current ? 'lane-current' : ''} ${crossed ? 'lane-crossed' : ''} ${isHitLane ? 'lane-hit' : ''}`} data-lane={lane} key={lane}>
-              <span className="lane-mark">{isStart ? 'СТАРТ' : `#${lane}`}</span>
-              {lane > 0 && <span className={`lane-multiplier ${crossed ? 'is-secured' : ''}`}>×{Math.min(1e12, safeMultiplier ** lane).toFixed(2)}</span>}
+              {lane > 0 && <span className="lane-mark">#{lane}</span>}
+              {lane > 0 && <button
+                type="button"
+                className={`lane-multiplier ${crossed ? 'is-secured' : ''}`}
+                onClick={lane === step + 1 && phase === 'running' ? onJump : undefined}
+                disabled={lane !== step + 1 || phase !== 'running'}
+                aria-label={`Прыгнуть на полосу ${lane}, множитель ${Math.min(1e12, safeMultiplier ** lane).toFixed(2)}`}
+              >×{Math.min(1e12, safeMultiplier ** lane).toFixed(2)}</button>}
               <span className="lane-dash" />
               {showBarrier && <span className={`road-blocker ${isStopped || isBraking ? 'road-blocker-stopped' : ''}`} aria-hidden="true"><i /><i /><i /></span>}
               {showCar && <Car
                 variant={(lane - 1) % 3}
-                delay={`${lane * -0.45}s`}
-                duration={`${(1.25 + (lane % 4) * 0.2) / 1.3}s`}
+                delay={`${lane * -0.675}s`}
+                duration={`${((1.25 + (lane % 4) * 0.2) / 1.3) * 1.5}s`}
                 braking={isBraking}
                 brakeReady={Boolean(brakePosition)}
                 stopped={isStopped}
