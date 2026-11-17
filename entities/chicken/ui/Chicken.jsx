@@ -1,11 +1,12 @@
 import carOne from '../assets/cars/1.png';
 import carTwo from '../assets/cars/2.png';
 import carThree from '../assets/cars/3.png';
+import carFour from '../assets/cars/4.png';
 import idleChickenImage from '../assets/chicken_stay.webp';
 import flyingChickenImage from '../assets/chicken_fly.webp';
 import deadChickenImage from '../assets/chicken_dead.png';
 
-const CAR_IMAGES = [carOne, carTwo, carThree];
+const CAR_IMAGES = [carOne, carTwo, carThree, carFour];
 
 export function SquashedChicken() {
   return (

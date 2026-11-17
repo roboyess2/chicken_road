@@ -85,7 +85,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
               <span className="lane-dash" />
               {showBarrier && <span className={`road-blocker ${isStopped || isBraking ? 'road-blocker-stopped' : ''}`} aria-hidden="true"><i /><i /><i /></span>}
               {showCar && <Car
-                variant={(lane - 1) % 3}
+                variant={(lane - 1) % 4}
                 delay={`${(lane % 3) * 0.4}s`}
                 duration={`${((1.25 + (lane % 4) * 0.2) / 1.3) * 1.5}s`}
                 braking={isBraking}
@@ -95,7 +95,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
                 stoppedTop={stoppedTop || brakePosition?.to}
                 onBrakeEnd={() => onStoppedCarsChange((previous) => previous[lane] ? previous : { ...previous, [lane]: brakePosition?.to })}
               />}
-              {isHitLane && <Car variant={step % 3} delay="0s" duration=".55s" />}
+              {isHitLane && <Car variant={step % 4} delay="0s" duration=".55s" />}
               {current && <span key={`chicken-${step}-${phase}`} className={`chicken-position ${phase === 'jumping' ? 'jumping' : ''} ${phase === 'crashing' ? 'crashing' : ''} ${cameraLocked ? 'camera-locked' : ''} ${phase === 'lost' ? 'falling' : ''}`}><Chicken jumping={phase === 'jumping' || phase === 'crashing'} crashed={phase === 'lost'} /></span>}
               {lane === step + 1 && phase === 'jumping' && !pendingHit && <span className="safe-landing"><span>✦</span></span>}
             </div>
