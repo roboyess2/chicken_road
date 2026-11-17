@@ -763,10 +763,8 @@ button:focus-visible, a:focus-visible { outline-color: #9ad3ff; }
 
 /* Keep each car's motion speed while adding a longer empty interval between passes. */
 @keyframes drive-vertical {
-  0% { top: -120px; opacity: 0; }
-  12% { top: -62px; opacity: 0; }
-  20%, 33.333% { top: -62px; opacity: 1; }
-  100% { top: calc(100% + 62px); opacity: 1; }
+  0% { top: -260px; }
+  100% { top: calc(100% + 180px); }
 }
 
 /* Staggered concrete slabs with recessed joints, fine aggregate and a raised curb. */
@@ -787,47 +785,45 @@ button:focus-visible, a:focus-visible { outline-color: #9ad3ff; }
 }
 .road-lane.lane-start::before {
   width: clamp(14px, 2.6vw, 24px);
-  border-left: 3px solid #f8fbff;
-  background:
-    repeating-linear-gradient(180deg, transparent 0 43px, rgba(55,72,88,.48) 43px 46px),
-    linear-gradient(90deg, #e7edf0 0 13%, #c2cdd2 14% 55%, #84949e 100%);
-  box-shadow: 4px 0 13px rgba(13,29,45,.36), inset 2px 0 rgba(255,255,255,.72), inset -2px 0 rgba(48,65,78,.28);
+  border: 0;
+  background: var(--curb-texture) center top / 100% auto repeat-y !important;
+  box-shadow: 4px 0 10px rgba(13,29,45,.32);
 }
-.road-lane.lane-start::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  right: clamp(14px, 2.6vw, 24px);
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(90deg, rgba(255,255,255,.75), rgba(45,64,82,.25));
-  box-shadow: 1px 0 4px rgba(35,52,67,.22);
-  pointer-events: none;
-}
+.road-lane.lane-start::after { content: none !important; }
+.car { animation-fill-mode: backwards; }
 .road-lane.lane-start .lane-mark {
   border-color: rgba(240,248,255,.85);
   background: linear-gradient(180deg, #3e8bd2, #225f9f) !important;
 }
 
 /* Fuller leafy verge like the reference, still scaled with the playfield. */
-.road-edge.edge-left {
-  width: clamp(26px, 5vw, 58px);
-  border-right-color: rgba(207,231,171,.56);
-  background-color: #3c742c;
+.road-edge.edge-left { width: 0; overflow: visible; border: 0; background: transparent; box-shadow: none; }
+
+/* Use the supplied paving texture and keep the scenery around the chicken's path. */
+.road-lane.lane-start,
+.road-lane.lane-start.lane-current,
+.road-lane.lane-start.lane-crossed {
+  background-color: #cbd7df !important;
   background-image:
-    radial-gradient(ellipse at 22% 7%, rgba(218,249,151,.5) 0 3%, transparent 13%),
-    radial-gradient(ellipse at 18% 10%, #9bc957 0 10%, #6f9e3e 11% 20%, #426d2f 22%, transparent 25%),
-    radial-gradient(ellipse at 79% 21%, rgba(207,241,135,.45) 0 3%, transparent 12%),
-    radial-gradient(ellipse at 74% 23%, #83b848 0 12%, #568b35 13% 23%, #375f2b 25%, transparent 28%),
-    radial-gradient(ellipse at 29% 42%, #91c34f 0 11%, #669c3a 12% 22%, #3c682d 24%, transparent 27%),
-    radial-gradient(ellipse at 85% 54%, rgba(210,242,135,.45) 0 3%, transparent 12%),
-    radial-gradient(ellipse at 78% 57%, #7caf42 0 12%, #4f8432 13% 23%, #315b28 25%, transparent 28%),
-    radial-gradient(ellipse at 24% 78%, #9ac65a 0 12%, #5f9138 13% 23%, #355e29 25%, transparent 28%),
-    radial-gradient(ellipse at 81% 91%, #78aa40 0 11%, #4b7d31 12% 22%, #315727 24%, transparent 27%),
-    repeating-linear-gradient(112deg, transparent 0 8px, rgba(174,219,103,.16) 8px 9px, transparent 9px 15px),
-    linear-gradient(90deg, #244d28, #4f7e32);
-  box-shadow: inset -3px 0 rgba(255,255,255,.18), inset -8px 0 12px rgba(23,49,27,.22);
+    linear-gradient(rgba(175,202,226,.12),rgba(94,128,159,.12)),
+    var(--sidewalk-texture) !important;
+  background-size: 100% 100%, clamp(170px, 16vw, 240px) clamp(170px, 16vw, 240px) !important;
+  background-repeat: no-repeat, repeat !important;
+  background-position: 0 0, 0 0 !important;
 }
-.road-edge.edge-left::before,
-.road-edge.edge-left::after { content: none; }
+.road-edge.edge-left { overflow: visible; }
+.road-lanes { transform: none; }
+.road-edge.edge-left {
+  display: block !important;
+  position: absolute;
+  z-index: 6;
+  width: clamp(58px, 8vw, 96px);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: visible;
+  background: none;
+  border: 0;
+  filter: none;
+}
+.road-edge.edge-left::before, .road-edge.edge-left::after { content: none; }

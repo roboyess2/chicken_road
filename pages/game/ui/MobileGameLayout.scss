@@ -122,20 +122,7 @@
 .mobile-control-foot > b { color: #b7ddff; }
 .mobile-road-stage .road-lane.lane-start { border-right: 0; }
 .mobile-road-stage .road-lane.lane-start::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  right: clamp(14px, 2.6vw, 24px);
-  bottom: 0;
-  left: auto;
-  width: 3px;
-  height: auto;
-  border: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,.75), rgba(45,64,82,.25));
-  box-shadow: 1px 0 4px rgba(35,52,67,.22);
-  transform: none;
-  animation: none;
+  content: none !important;
 }
 .mobile-actions.is-active { grid-template-columns: minmax(0, 1fr); }
 .mobile-actions.is-active .mobile-cashout-button { width: 100%; }

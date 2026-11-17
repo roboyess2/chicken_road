@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Car, Chicken } from '../../../entities/chicken/ui/Chicken.jsx';
+import sidewalkTexture from '../assets/sidewalktexture.png';
+import curbTexture from '../assets/bordur.png';
 
 export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStoppedCarsChange, visibleLanes, safeMultiplier, onJump, mobileLayout = false }) {
   const lanesRef = useRef(null);
@@ -41,14 +43,13 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
   }, [brakingLane, phase, pendingHit, brakePositions]);
 
   return (
-    <div className="road-scene" data-phase={phase} aria-label={`Курочка прошла ${step} полос, дорога бесконечная`}>
+    <div className="road-scene" data-phase={phase} aria-label={`Курочка прошла ${step} полос, дорога бесконечная`} style={{ '--curb-texture': `url(${curbTexture})` }}>
       <div className="road-sky">
         <span className="sun-glow" />
         <span className="cloud cloud-a" /><span className="cloud cloud-b" />
         <span className="hill hill-a" /><span className="hill hill-b" />
         <span className="tree tree-a">♣</span><span className="tree tree-b">♣</span><span className="tree tree-c">♣</span>
       </div>
-      {step === 0 && !['jumping', 'crashing', 'lost'].includes(phase) && <div className="road-edge edge-left"><span>✿</span><span>✿</span><span>✿</span></div>}
       <div className="road-edge edge-right"><span>✿</span><span>✿</span><span>✿</span></div>
       <div
         ref={lanesRef}
@@ -56,6 +57,8 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
         style={{
           '--camera-shift': mobileLayout ? '25%' : `${100 / visibleLanes}%`,
           '--lane-width': mobileLayout ? '25%' : `${100 / visibleLanes}%`,
+          '--sidewalk-texture': `url(${sidewalkTexture})`,
+          '--curb-texture': `url(${curbTexture})`,
         }}
       >
         {rows.map((lane) => {
@@ -83,7 +86,7 @@ export function Road({ step, phase, pendingHit, brakingLane, stoppedCars, onStop
               {showBarrier && <span className={`road-blocker ${isStopped || isBraking ? 'road-blocker-stopped' : ''}`} aria-hidden="true"><i /><i /><i /></span>}
               {showCar && <Car
                 variant={(lane - 1) % 3}
-                delay={`${lane * -0.675}s`}
+                delay={`${(lane % 3) * 0.4}s`}
                 duration={`${((1.25 + (lane % 4) * 0.2) / 1.3) * 1.5}s`}
                 braking={isBraking}
                 brakeReady={Boolean(brakePosition)}
